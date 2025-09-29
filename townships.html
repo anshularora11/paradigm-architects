@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Townships - Paradigm Architects</title>
+ <link rel="icon" href="favicon/favicon.ico" type="image/x-icon">
+<style>
+body {
+  font-family:'Segoe UI',Tahoma,Verdana,sans-serif;
+  margin:0;
+  padding:0;
+  background:#f9f9f9;
+  color:#000; /* black text */
+}
+header {
+  background:#ffffff; /* white header */
+  padding:20px;
+  color:#000; /* black text */
+  text-align:center;
+  border-bottom: 1px solid #ccc;
+}
+header h1 { margin:0; font-size:2rem; }
+.back-btn {
+  display:inline-block;
+  margin:20px;
+  padding:10px 20px;
+  background:#ffffff; /* white button */
+  color:#000; /* black text */
+  border: 1px solid #000;
+  border-radius:0;
+  text-decoration:none;
+  transition:0.3s;
+}
+.back-btn:hover { background:#f0f0f0; }
+
+/* Masonry grid */
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  grid-auto-rows: 10px;
+  gap: 10px;
+  padding: 0 20px 20px 20px;
+}
+.gallery img {
+  width: 100%;
+  display: block;
+  object-fit: cover;
+  border-radius: 0; /* sharp corners */
+  grid-row: span var(--span, 30);
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+.gallery img:hover {
+  transform: scale(1.03);
+}
+
+/* Lightbox */
+#lightbox {
+  display: none;
+  position: fixed;
+  top:0; left:0;
+  width:100%;
+  height:100%;
+  background: rgba(0,0,0,0.9);
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+#lightbox img {
+  max-width: 90%;
+  max-height: 90%;
+}
+#lightbox .close {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  font-size: 2rem;
+  color: white; /* keep cross visible */
+  cursor: pointer;
+  font-weight: bold;
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Townships</h1>
+</header>
+
+<a href="index.html" class="back-btn">← Back to Catalogue</a>
+
+<div class="gallery">
+  <img src="https://images.unsplash.com/photo-1523413651479-597eb2da0ad6?auto=format&fit=crop&w=800&q=80" style="--span:35">
+  <img src="https://images.unsplash.com/photo-1565182999561-9d69b6b6f7fe?auto=format&fit=crop&w=800&q=80" style="--span:30">
+  <img src="https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&w=800&q=80" style="--span:25">
+  <img src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&w=800&q=80" style="--span:30">
+  <img src="https://images.unsplash.com/photo-1505842465776-3d1a4d2a3c39?auto=format&fit=crop&w=800&q=80" style="--span:40">
+  <img src="https://images.unsplash.com/photo-1508057198894-247b23fe5ade?auto=format&w=800&q=80" style="--span:28">
+  <img src="https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&w=800&q=80" style="--span:32">
+  <img src="https://images.unsplash.com/photo-1580587771525-78b9dba3b915?auto=format&w=800&q=80" style="--span:27">
+  <img src="https://images.unsplash.com/photo-1580587771525-78b9dba3b916?auto=format&w=800&q=80" style="--span:35">
+  <img src="https://images.unsplash.com/photo-1580587771525-78b9dba3b917?auto=format&w=800&q=80" style="--span:30">
+</div>
+
+<!-- Lightbox modal -->
+<div id="lightbox">
+  <span class="close">&times;</span>
+  <img src="" alt="Large Image">
+</div>
+
+<script>
+const lightbox = document.getElementById('lightbox');
+const lightboxImg = lightbox.querySelector('img');
+const closeBtn = lightbox.querySelector('.close');
+const images = document.querySelectorAll('.gallery img');
+
+images.forEach(img => {
+  img.addEventListener('click', () => {
+    lightbox.style.display = 'flex';
+    lightboxImg.src = img.src;
+  });
+});
+
+closeBtn.addEventListener('click', () => {
+  lightbox.style.display = 'none';
+});
+
+lightbox.addEventListener('click', e => {
+  if(e.target === lightbox) lightbox.style.display = 'none';
+});
+</script>
+
+</body>
+</html>

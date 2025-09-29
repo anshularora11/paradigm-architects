@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Paradigm Architects</title>
+  <link rel="icon" href="favicon/favicon.ico" type="image/x-icon">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    /* Reset & base */
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+    body { font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color:#333; line-height:1.6; scroll-behavior:smooth; background:#f9f9f9; }
+    a { text-decoration:none; color:inherit; }
+    ul { list-style:none; }
+    img { max-width:100%; display:block; }
+
+    /* Header / Nav */
+    header { position:fixed; width:100%; top:0; left:0; background:rgba(255,255,255,0.95); box-shadow:0 2px 5px rgba(0,0,0,0.1); z-index:1000; }
+    .nav-container { max-width:1200px; margin:auto; padding:20px; display:flex; align-items:center; justify-content:space-between; }
+    .logo {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* space between logo and text */
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.nav-logo {
+  height: 40px; /* adjust size as needed */
+  width: auto;
+}
+    nav ul { display:flex; gap:20px; }
+    nav li a { padding:8px 12px; transition:background 0.3s; }
+    nav li a:hover { background:#f0f0f0; border-radius:4px; }
+
+    /* Hamburger for mobile */
+    .nav-toggle { display:none; font-size:1.5rem; cursor:pointer; background:none; border:none; }
+    @media (max-width:768px) {
+      nav ul { flex-direction:column; position:absolute; top:100%; right:0; background:white; width:200px; display:none; box-shadow:0 4px 10px rgba(0,0,0,0.1);}
+      nav ul.active { display:flex; }
+      .nav-toggle { display:block; }
+    }
+
+    /* Hero Slider */
+    .hero { position:relative; height:90vh; min-height:500px; overflow:hidden; }
+    .hero-slider { position:absolute; width:100%; height:100%; top:0; left:0; }
+    .hero-slider .slide { position:absolute; width:100%; height:100%; background-size:cover; background-position:center; opacity:0; transition:opacity 1s; }
+    .hero-slider .slide.active { opacity:1; z-index:-1; }
+    .hero-overlay { position:absolute; inset:0; background:rgba(0,0,0,0.4); }
+    .hero-content { position:relative; max-width:800px; margin:auto; top:50%; transform:translateY(-50%); text-align:center; color:#fff; padding:0 20px; }
+    .hero-content h1 { font-size:3rem; margin-bottom:20px; }
+    .hero-content p { font-size:1.2rem; margin-bottom:30px; }
+    .btn-primary { padding:12px 24px; background:#007BFF; color:white; border:none; border-radius:4px; font-size:1rem; cursor:pointer; transition:background 0.3s; }
+    .btn-primary:hover { background:#0056b3; }
+
+    /* Sections */
+    .section { max-width:1200px; margin:100px auto; padding:0 20px; opacity:0; transform:translateY(20px); transition:all 0.8s ease-out; }
+    .section.show { opacity:1; transform:translateY(0); }
+    .section-title { text-align:center; font-size:2rem; margin-bottom:40px; position:relative; }
+    .section-title::after { content:''; width:60px; height:3px; background:#007BFF; display:block; margin:12px auto 0; }
+
+    /* Catalogue / Projects */
+    .projects-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(280px,1fr)); gap:20px; }
+    .project-card { overflow:hidden; border-radius:8px; box-shadow:0 4px 12px rgba(0,0,0,0.1); transition:transform 0.3s; position:relative; cursor:pointer; }
+    .project-card:hover { transform:translateY(-5px); }
+    .project-card img { height:200px; object-fit:cover; width:100%; }
+    .project-card .card-content { padding:20px; background:white; text-align:center; }
+    .project-card .card-content h3 { font-size:1.3rem; color:#007BFF; }
+
+    /* Services */
+    .services-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(240px,1fr)); gap:20px; }
+    .service-box { background:#f8f8f8; border-radius:8px; padding:30px 20px; text-align:center; transition:background 0.3s, transform 0.3s; }
+    .service-box:hover { background:#eaeaea; transform:translateY(-5px); }
+    .service-box h4 { margin-bottom:15px; font-size:1.2rem; }
+    .service-box p { color:#555; font-size:1rem; }
+    .service-box i { font-size:2rem; margin-bottom:10px; color:#007BFF; }
+
+    /* About */
+    .about-content { display:flex; flex-wrap:wrap; align-items:center; gap:70px; }
+    .about-image, .about-text { flex:1; min-width:200px; max-width: 500px; }
+    .about-text {
+  font-size: 1.1rem;   /* increases base text size */
+  line-height: 1.8;    /* makes it more readable */
+}
+
+.about-text h3 {
+  font-size: 1.6rem;   /* heading size */
+  margin-bottom: 15px;
+}
+
+.about-text ul li {
+  font-size: 1.05rem;  /* list items */
+  margin-bottom: 8px;
+}
+
+    /* Contact */
+    .contact-form { max-width:500px; margin:auto; display:flex; flex-direction:column; gap:15px; }
+    .contact-form input, .contact-form textarea { padding:12px; border:1px solid #ccc; border-radius:4px; font-size:1rem; }
+    .contact-form button { width:150px; padding:12px; background:#007BFF; color:#fff; border:none; border-radius:4px; cursor:pointer; }
+    .contact-form button:hover { background:#0056b3; }
+
+    /* Footer */
+    footer { background:#222; color:#aaa; padding:40px 20px; text-align:center; }
+    footer a { color:#aaa; margin:0 5px; font-size:1.2rem; }
+    footer .socials { margin-top:15px; }
+
+    @media(max-width:768px){ .hero-content h1{font-size:2.2rem;} .about-content{flex-direction:column;}}
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="nav-container">
+    <div class="logo">
+      <img src="images/logo/nav.png" alt="Paradigm Architects Logo" class="nav-logo">
+      <span>Paradigm Architects</span>
+    </div>
+    <button class="nav-toggle">☰</button>
+    <nav>
+      <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#projects">Catalogue</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<!-- Hero Slider -->
+<section class="hero" id="home">
+  <div class="hero-slider">
+   <div class="slide active" style="background-image: url('images/ss/1.jpg');"></div>
+    <div class="slide" style="background-image: url('images/ss/2.jpg');"></div>
+  <div class="slide" style="background-image: url('images/ss/4.jpg');"></div>
+   <div class="slide" style="background-image: url('images/ss/3.jpg');"></div>
+  </div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <h1>Where Creativity Meets Structure</h1>
+    <p>Paradigm Architects crafts architectural stories rooted in context, innovation and sustainability.</p>
+    <button class="btn-primary" onclick="scrollToSection('projects')">Our Work</button>
+  </div>
+</section>
+
+<!-- Catalogue -->
+<section class="section" id="projects">
+  <h2 class="section-title">Catalogue</h2>
+  <div class="projects-grid">
+    <div class="project-card" onclick="window.location='classical-villa.html'">
+      <img src="images\classical\1D.jpg" alt="Classical Villa">
+      <div class="card-content"><h3>Classical Villa</h3></div>
+    </div>
+    <div class="project-card" onclick="window.location='modern-exterior.html'">
+      <img src="images\modern\1.jpg" alt="Modern Exterior">
+      <div class="card-content"><h3>Modern Exterior</h3></div>
+    </div>
+    <div class="project-card" onclick="window.location='farm-houses.html'">
+      <img src="images\farm\3.jpg" alt="Farm Houses">
+      <div class="card-content"><h3>Farm Houses</h3></div>
+    </div>
+    <div class="project-card" onclick="window.location='interior.html'">
+      <img src="images/interior/17.JPG" alt="Interior">
+      <div class="card-content"><h3>Interior</h3></div>
+    </div>
+    <div class="project-card" onclick="window.location='townships.html'">
+      <img src="https://images.unsplash.com/photo-1580587771525-78b9dba3b916?auto=format&fit=crop&w=1200&q=80" alt="Townships">
+      <div class="card-content"><h3>Townships</h3></div>
+    </div>
+    <div class="project-card" onclick="window.location='commercial-complex.html'">
+      <img src="https://images.unsplash.com/photo-1580587771525-78b9dba3b917?auto=format&fit=crop&w=1200&q=80" alt="Commercial Complex">
+      <div class="card-content"><h3>Commercial Complex</h3></div>
+    </div>
+  </div>
+</section>
+
+<!-- Services -->
+<section class="section" id="services">
+  <h2 class="section-title">Services</h2>
+  <div class="services-grid">
+    <div class="service-box"><i class="fa-solid fa-building"></i><h4>Architectural Design</h4><p>Designing residences, offices, and public buildings with creativity and technical excellence.</p></div>
+    <div class="service-box"><i class="fa-solid fa-couch"></i><h4>Interior Design</h4><p>Functional and aesthetic interiors to match the vision and lifestyle of each client.</p></div>
+    <div class="service-box"><i class="fa-solid fa-city"></i><h4>Vastu Consultancy</h4><p>Vastu solutions for peace, prosperity, and perfect energy flow.</p></div>
+  </div>
+</section>
+
+<!-- About -->
+<section class="section" id="about">
+  <h2 class="section-title">About Us</h2>
+  <div class="about-content">
+    <div class="about-image"><img src="images\logo\logo-2.png" alt="About Us"></div>
+    <div class="about-text">
+      <h3>Paradigm Architects Studio</h3>
+      <p>Established in 2015, Paradigm Architects is a design-led firm committed to creating architectural solutions that are modern, sustainable, and rooted in the local environment. Each project is treated as a unique opportunity to blend form, function, and innovation.</p>
+      <ul>
+        <li>Residential, Commercial & Institutional projects</li>
+        <li>Sustainable & context-sensitive design</li>
+        <li>Collaborative & client-centered process</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- Contact -->
+<section class="section" id="contact">
+  <h2 class="section-title">Contact Us</h2>
+  
+ <p style="text-align:center; margin-top:30px;">
+  Email: <a href="mailto:info@paradigm-architects.com">info@paradigm-architects.com</a> | 
+  Phone: <a href="tel:+911234567890">+91 84400 00847</a>
+</p>
+
+  <p style="text-align:center; margin-top:10px;">
+    Follow us on Instagram: 
+    <a href="https://www.instagram.com/paradigm_architects_" target="_blank" style="text-decoration:none;">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#000000" viewBox="0 0 24 24" style="vertical-align:middle;">
+        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.633.335 3.608 1.31.975.975 1.248 2.242 1.31 3.608.058 1.266.069 1.645.069 4.849s-.012 3.584-.07 4.85c-.062 1.366-.335 2.633-1.31 3.608-.975.975-2.242 1.248-3.608 1.31-1.266.058-1.645.069-4.85.069s-3.584-.012-4.85-.07c-1.366-.062-2.633-.335-3.608-1.31-.975-.975-1.248-2.242-1.31-3.608-.058-1.266-.069-1.645-.069-4.85s.012-3.584.07-4.85c.062-1.366.335-2.633 1.31-3.608.975-.975 2.242-1.248 3.608-1.31 1.266-.058 1.645-.069 4.85-.069zm0-2.163c-3.257 0-3.667.013-4.947.072-1.518.067-2.874.368-3.937 1.43-1.063 1.063-1.364 2.419-1.431 3.937-.059 1.28-.072 1.69-.072 4.947s.013 3.667.072 4.947c.067 1.518.368 2.874 1.431 3.937 1.063 1.063 2.419 1.364 3.937 1.431 1.28.059 1.69.072 4.947.072s3.667-.013 4.947-.072c1.518-.067 2.874-.368 3.937-1.431 1.063-1.063 1.364-2.419 1.431-3.937.059-1.28.072-1.69.072-4.947s-.013-3.667-.072-4.947c-.067-1.518-.368-2.874-1.431-3.937-1.063-1.063-2.419-1.364-3.937-1.431-1.28-.059-1.69-.072-4.947-.072z"/>
+        <path d="M12 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zm0 10.162a3.999 3.999 0 1 1 0-7.998 3.999 3.999 0 0 1 0 7.998z"/>
+        <circle cx="18.406" cy="5.594" r="1.44"/>
+      </svg>
+      @paradigm_architects_
+    </a>
+  </p>
+</section>
+
+<!-- Footer -->
+<footer>
+  <p>© 2025 Paradigm Architects. Designed by Anshul Arora.</p>
+  
+</footer>
+
+<script>
+  function scrollToSection(id) {
+    const el=document.getElementById(id); if(el) el.scrollIntoView({behavior:'smooth'});
+  }
+
+  // Hero Slider
+  let slides=document.querySelectorAll('.hero-slider .slide'); let currentSlide=0;
+  setInterval(()=>{ slides[currentSlide].classList.remove('active'); currentSlide=(currentSlide+1)%slides.length; slides[currentSlide].classList.add('active'); },3000);
+
+  // Hamburger menu
+  const navToggle=document.querySelector('.nav-toggle');
+  navToggle.addEventListener('click',()=>{ document.querySelector('nav ul').classList.toggle('active'); });
+
+  // Contact form
+  function submitContact(){
+    const name=document.getElementById('name').value.trim();
+    const email=document.getElementById('email').value.trim();
+    const message=document.getElementById('message').value.trim();
+    if(!name||!email||!message){ alert('All fields are required!'); return; }
+    alert(`Thanks ${name}! We received your message.`);
+  }
+
+  // Scroll fade-in
+  const faders=document.querySelectorAll('.section');
+  window.addEventListener('scroll',()=>{
+    faders.forEach(section=>{ if(section.getBoundingClientRect().top<window.innerHeight-50) section.classList.add('show'); });
+  });
+</script>
+
+</body>
+</html>
